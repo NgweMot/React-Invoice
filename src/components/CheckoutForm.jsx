@@ -1,8 +1,11 @@
-import React, { useRef } from "react";
+import React, { useContext, useRef } from "react";
+import { GeneralContext } from "../contexts/GeneralContext";
 
-const CheckoutForm = ({ products, addRecord }) => {
+const CheckoutForm = () => {
   const idRef = useRef("");
   const quantityRef = useRef("");
+  const { products, addRecord } = useContext(GeneralContext);
+
   const handleBuyBtn = () => {
     // console.log(idRef.current.value,quantityRef.current.valueAsNumber);
     const currentProduct = products.find(
@@ -19,7 +22,7 @@ const CheckoutForm = ({ products, addRecord }) => {
       cost,
     };
     addRecord(newRecord);
-    idRef.current.value =1;
+    idRef.current.value = 1;
     quantityRef.current.value = "";
   };
   return (
@@ -40,7 +43,9 @@ const CheckoutForm = ({ products, addRecord }) => {
               required
             >
               {products.map(({ id, name }) => (
-                <option key={id} value={id}>{name}</option>
+                <option key={id} value={id}>
+                  {name}
+                </option>
               ))}
             </select>
           </div>

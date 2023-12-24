@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import Product from "./Product";
 import ProductCreateForm from "./ProductCreateForm";
+import { GeneralContext } from "../contexts/GeneralContext";
 
-const ProductGroup = ({ products }) => {
+const ProductGroup = () => {
+  const {products}=useContext(GeneralContext);
   return (
     <div id="productGroup" className="p-3">
       {products.map((product) => (

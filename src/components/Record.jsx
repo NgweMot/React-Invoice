@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
+import { GeneralContext } from "../contexts/GeneralContext";
 
-const Record = ({
-  record: { id, name, price, quantity, cost },
-  index,
-  removeRecord,
-}) => {
+const Record = ({ record: { id, name, price, quantity, cost }, index }) => {
+  const { removeRecord, updateRecord } = useContext(GeneralContext);
+  const handleRemoveBtn = () => {
+    removeRecord(id);
+  };
   return (
     <tr
       className="group odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
@@ -19,7 +20,12 @@ const Record = ({
       </th>
       <td className="px-6 py-4 text-end record-price">{price}</td>
       <td className="px-6 py-4 text-end">
-        <button className="q-sub pointer-events-none group-hover:pointer-events-auto opacity-0 group-hover:opacity-100 -translate-x-6 group-hover:translate-x-0 duration-200 bg-blue-100 text-blue-600 p-1 rounded">
+        <button
+          onClick={() => {
+            quantity > 1 && updateRecord(id, -1);
+          }}
+          className="q-sub pointer-events-none group-hover:pointer-events-auto opacity-0 group-hover:opacity-100 -translate-x-6 group-hover:translate-x-0 duration-200 bg-blue-100 text-blue-600 p-1 rounded"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -36,7 +42,12 @@ const Record = ({
           </svg>
         </button>
         <span className="record-q w-5 inline-block">{quantity}</span>
-        <button className="q-add pointer-events-none group-hover:pointer-events-auto opacity-0 group-hover:opacity-100 translate-x-6 group-hover:translate-x-0 duration-200 bg-blue-100 text-blue-600 p-1 rounded">
+        <button
+          onClick={() => {
+            updateRecord(id, 1);
+          }}
+          className="q-add pointer-events-none group-hover:pointer-events-auto opacity-0 group-hover:opacity-100 translate-x-6 group-hover:translate-x-0 duration-200 bg-blue-100 text-blue-600 p-1 rounded"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -55,7 +66,10 @@ const Record = ({
       </td>
       <td className="px-6 py-4 text-end relative">
         <span className="record-cost">{cost.toFixed(2)}</span>
-        <button onClick={()=>removeRecord(id)} className="record-del group-hover:opacity-100 group-hover:pointer-events-auto duration-200 group-hover:left-3/4 absolute pointer-events-none opacity-0 left-full top-3 translate-x-2 active:scale-75 bg-blue-100 p-2 rounded-lg">
+        <button
+          onClick={handleRemoveBtn}
+          className="record-del group-hover:opacity-100 group-hover:pointer-events-auto duration-200 group-hover:left-3/4 absolute pointer-events-none opacity-0 left-full top-3 translate-x-2 active:scale-75 bg-blue-100 p-2 rounded-lg"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
